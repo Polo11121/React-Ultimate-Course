@@ -1,26 +1,48 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import { Step, Message, DirectionButton, HideButton } from "components";
 
-function App() {
+export const App = () => {
+  const [currentStep, setCurrentStep] = useState(0);
+  const [isOpen, setIsOpen] = useState(true);
+
+  const isPrevButtonDisabled = currentStep === 0;
+  const isNextButtonDisabled = currentStep === 2;
+
+  const isActive = (step: number) => step <= currentStep;
+
+  const nextStepHandler = () =>
+    setCurrentStep((prev) => (prev < 2 ? prev + 1 : prev));
+
+  const prevStepHandler = () =>
+    setCurrentStep((prev) => (prev > 0 ? prev - 1 : prev));
+
+  const toggleVisibilityHandler = () => setIsOpen((prev) => !prev);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <HideButton onClick={toggleVisibilityHandler} />
+      {isOpen && (
+        <div className="steps">
+          <div className="numbers">
+            <Step step={0} isActive={isActive(0)} />
+            <Step step={1} isActive={isActive(1)} />
+            <Step step={2} isActive={isActive(2)} />
+          </div>
+          <Message currentStep={currentStep} />
+          <div className="buttons">
+            <DirectionButton
+              direction="previous"
+              isDisabled={isPrevButtonDisabled}
+              onClick={prevStepHandler}
+            />
+            <DirectionButton
+              direction="next"
+              isDisabled={isNextButtonDisabled}
+              onClick={nextStepHandler}
+            />
+          </div>
+        </div>
+      )}
+    </>
   );
-}
-
-export default App;
+};
