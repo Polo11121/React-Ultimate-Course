@@ -1,3 +1,7 @@
+import { useState } from "react";
+import { AddFriendForm, Button, FriendsList, SplitBillForm } from "components";
+import { Friend } from "types";
+
 const initialFriends = [
   {
     id: 118836,
@@ -20,5 +24,61 @@ const initialFriends = [
 ];
 
 export const App = () => {
-  return <div className="App"></div>;
+  const [isFormOpen, setIsFormOpen] = useState(false);
+  const [selectedFriend, setSelectedFriend] = useState<Friend | null>(null);
+  const [friends, setFriends] = useState<Friend[]>(initialFriends);
+
+  const addFriendHandler = (friend: Friend) => {
+    setFriends((prevState) => [...prevState, friend]);
+
+    setIsFormOpen(false);
+  };
+
+  const toggleFormVisibilityHandler = () =>
+    setIsFormOpen((prevState) => !prevState);
+
+  const selectFriendHandler = (friend: Friend) => {
+    setSelectedFriend((prevState) =>
+      prevState?.id === friend.id ? null : friend
+    );
+
+    setIsFormOpen(false);
+  };
+
+  const splitBillHandler = (value: number) => {
+    setFriends((prevState) =>
+      prevState.map((friend) =>
+        friend.id === selectedFriend?.id
+          ? {
+              ...friend,
+              balance: friend.balance + value,
+            }
+          : friend
+      )
+    );
+
+    setSelectedFriend(null);
+  };
+
+  return (
+    <div className="app">
+      <div className="sidebar">
+        <FriendsList
+          selectedFriendId={selectedFriend?.id}
+          onSelectFriend={selectFriendHandler}
+          friends={friends}
+        />
+        {isFormOpen && <AddFriendForm onAddFriend={addFriendHandler} />}
+        <Button onClick={toggleFormVisibilityHandler}>
+          {isFormOpen ? "Close" : " Add a Friend"}
+        </Button>
+      </div>
+      {selectedFriend && (
+        <SplitBillForm
+          name={selectedFriend.name}
+          onSplitBill={splitBillHandler}
+        />
+      )}
+    </div>
+  );
 };

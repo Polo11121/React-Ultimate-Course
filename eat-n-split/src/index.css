@@ -117,24 +117,18 @@ form {
   border-radius: 7px;
 }
 
-.form-add-friend {
-  grid-template-columns: 1fr 1.5fr;
+.add-friend-form {
   margin-bottom: 1.6rem;
   padding: 1.2rem;
 }
-.form-split-bill {
+
+.split-bill-form {
   grid-template-columns: 1fr 12rem;
   padding: 3.2rem 4rem;
 }
 
 label {
   font-weight: 500;
-}
-
-label::first-letter {
-  display: inline-block;
-  margin-right: 4px;
-  font-size: 1.8rem;
 }
 
 input,
