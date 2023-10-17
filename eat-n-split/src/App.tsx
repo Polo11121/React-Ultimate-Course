@@ -75,6 +75,7 @@ export const App = () => {
       </div>
       {selectedFriend && (
         <SplitBillForm
+          key={selectedFriend.id}
           name={selectedFriend.name}
           onSplitBill={splitBillHandler}
         />
