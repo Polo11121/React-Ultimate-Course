@@ -1,3 +1,3 @@
 export { average } from "utils/functions";
-export { tempMovieData, tempWatchedData } from "utils/data";
-export type { Movie } from "utils/type";
+export { tempMovieData } from "utils/data";
+export type { Movie } from "utils/types";
