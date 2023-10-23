@@ -1,15 +1,26 @@
+import { MouseEvent } from "react";
 import { Movie } from "utils";
 
 type WatchedMovieProps = {
   movie: Movie;
-  onClick?: (movieId: string) => void;
+  onDelete?: (movieId: string) => void;
+  onSelect?: (movieId: string) => void;
 };
 
-export const WatchedMovie = ({ movie, onClick }: WatchedMovieProps) => {
-  const removeMovieHandler = () => onClick?.(movie.imdbID);
+export const WatchedMovie = ({
+  movie,
+  onDelete,
+  onSelect,
+}: WatchedMovieProps) => {
+  const deleteMovieHandler = (event: MouseEvent<HTMLElement>) => {
+    event.stopPropagation();
+    onDelete?.(movie.imdbID);
+  };
+
+  const selectMovieHandler = () => onSelect?.(movie.imdbID);
 
   return (
-    <li key={movie.imdbID}>
+    <li key={movie.imdbID} onClick={selectMovieHandler}>
       <img src={movie.Poster} alt={`${movie.Title} poster`} />
       <h3>{movie.Title}</h3>
       <div>
@@ -25,7 +36,7 @@ export const WatchedMovie = ({ movie, onClick }: WatchedMovieProps) => {
           <span>⏳</span>
           <span>{movie.Runtime} min</span>
         </p>
-        <button className="btn-delete" onClick={removeMovieHandler}>
+        <button className="btn-delete" onClick={deleteMovieHandler}>
           X
         </button>
       </div>

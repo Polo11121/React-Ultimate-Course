@@ -2,11 +2,11 @@ import { Movie } from "utils";
 
 type MovieItemProps = {
   movie: Movie;
-  onClick?: (movieId: string) => void;
+  onSelect?: (movieId: string) => void;
 };
 
-export const MovieItem = ({ movie, onClick }: MovieItemProps) => {
-  const selectMovieHandler = () => onClick?.(movie.imdbID);
+export const MovieItem = ({ movie, onSelect }: MovieItemProps) => {
+  const selectMovieHandler = () => onSelect?.(movie.imdbID);
 
   return (
     <li key={movie.imdbID} onClick={selectMovieHandler}>

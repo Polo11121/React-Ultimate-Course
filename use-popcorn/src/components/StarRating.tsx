@@ -30,7 +30,7 @@ export const StarRating = ({
   onRate,
 }: StarRatingProps) => {
   const [rating, setRating] = useState(defaultRating);
-  const [currentRating, setCurrentRating] = useState(0);
+  const [currentRating, setCurrentRating] = useState(defaultRating);
 
   const textStyle = {
     lineHeight: "1",

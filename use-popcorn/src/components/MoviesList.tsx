@@ -4,12 +4,14 @@ import { WithLoader, WithError, Loader } from "components";
 type MoviesListProps = {
   ListItem: (props: {
     movie: Movie;
-    onClick?: (movieId: string) => void;
+    onSelect?: (movieId: string) => void;
+    onDelete?: (movieId: string) => void;
   }) => JSX.Element;
   movies: Movie[];
   isLoading: boolean;
   error: string;
-  onClick?: (movieId: string) => void;
+  onSelect?: (movieId: string) => void;
+  onDelete?: (movieId: string) => void;
 };
 
 export const MoviesList = ({
@@ -17,14 +19,20 @@ export const MoviesList = ({
   movies,
   error,
   isLoading,
-  onClick,
+  onSelect,
+  onDelete,
 }: MoviesListProps) => (
   <WithLoader Loader={<Loader />} isLoading={isLoading}>
     <WithError errorMessage={error}>
       <ul className="list list-movies">
         {movies.length ? (
           movies.map((movie) => (
-            <ListItem key={movie.imdbID} movie={movie} onClick={onClick} />
+            <ListItem
+              key={movie.imdbID}
+              movie={movie}
+              onDelete={onDelete}
+              onSelect={onSelect}
+            />
           ))
         ) : (
           <h1>No movies found</h1>

@@ -1,70 +1,41 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Movie } from "utils";
 import { WithLoader, Loader, WithError, StarRating } from "components";
+import { useClickKeyboardKey, useFetch } from "hooks";
+import queryString from "query-string";
 
 type MovieInfoProps = {
   movieId: string;
   onClose: () => void;
   onAddToWatched: (movie: Movie, userRating: number) => void;
-  isWatched: boolean;
+  currentUserRating?: number;
 };
 
 export const MovieInfo = ({
   movieId,
   onClose,
   onAddToWatched,
-  isWatched,
+  currentUserRating,
 }: MovieInfoProps) => {
-  const [movieInfo, setMovieInfo] = useState<Movie | null>(null);
   const [userRating, setUserRating] = useState(0);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("");
+  const {
+    data: movieInfo,
+    isLoading,
+    error,
+  } = useFetch<Movie>({
+    url: queryString.stringifyUrl({
+      url: process.env.REACT_APP_API_URL!,
+      query: {
+        i: movieId,
+      },
+    }),
+    enabled: Boolean(movieId),
+  });
+  useClickKeyboardKey({ type: "escape", callback: onClose });
 
   const addToWatchedHandler = () => onAddToWatched(movieInfo!, userRating);
 
   const rateMovieHandler = (rating: number) => setUserRating(rating);
-
-  useEffect(() => {
-    const fetchMovieInfo = async () => {
-      try {
-        setIsLoading(true);
-        const reponse = await fetch(
-          `${process.env.REACT_APP_API_URL}&i=${movieId}`
-        );
-
-        const data: Movie = await reponse.json();
-
-        setMovieInfo(data);
-
-        document.title = data.Title;
-      } catch (error: any) {
-        console.error(error);
-        setError(error.message);
-        setMovieInfo(null);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchMovieInfo();
-
-    return () => {
-      document.title = "usePopcorn";
-    };
-  }, []);
-
-  useEffect(() => {
-    const goBack = () =>
-      document.addEventListener("keydown", (event) => {
-        if (event.code === "Escape") {
-          onClose();
-        }
-      });
-
-    goBack();
-
-    return () => document.removeEventListener("keydown", goBack);
-  });
 
   return (
     <div className="details">
@@ -91,10 +62,15 @@ export const MovieInfo = ({
           </header>
           <section>
             <div className="rating">
-              <StarRating onRate={rateMovieHandler} maxRating={10} size={24} />
+              <StarRating
+                defaultRating={currentUserRating}
+                onRate={rateMovieHandler}
+                maxRating={10}
+                size={24}
+              />
               {
                 <button className="btn-add" onClick={addToWatchedHandler}>
-                  {isWatched ? "Update" : "+ Add to list"}
+                  {currentUserRating !== undefined ? "Update" : "+ Add to list"}
                 </button>
               }
             </div>
