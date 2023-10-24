@@ -1,55 +1,69 @@
-import { ChangeEvent, useState, useReducer } from "react";
+import { ChangeEvent, useReducer } from "react";
 
-enum ActionType {
+type InitialState = {
+  step: number;
+  count: number;
+};
+
+enum Action {
   INCREMENT = "increment",
   DECREMENT = "decrement",
   SET_COUNT = "setCount",
+  SET_STEP = "setStep",
   RESET = "reset",
 }
 
 type ReducerAction =
-  | { type: ActionType.SET_COUNT; payload: number }
-  | { type: Exclude<ActionType, ActionType.SET_COUNT> };
+  | { type: Action.SET_COUNT | Action.SET_STEP; payload: number }
+  | { type: Exclude<Action, Action.SET_COUNT | Action.SET_STEP> };
 
-const reducer = (state: number, action: ReducerAction) => {
+const reducer = (state: InitialState, action: ReducerAction) => {
   switch (action.type) {
-    case ActionType.INCREMENT:
-      return state + 1;
-    case ActionType.DECREMENT:
-      return state - 1;
-    case ActionType.SET_COUNT:
-      return action.payload;
-    case ActionType.RESET:
-      return 0;
+    case Action.INCREMENT:
+      return { ...state, count: state.count + state.step };
+    case Action.DECREMENT:
+      return {
+        ...state,
+        count: state.count - +state.step,
+      };
+    case Action.SET_COUNT:
+      return { ...state, count: action.payload };
+    case Action.SET_STEP:
+      return { ...state, step: action.payload };
+    case Action.RESET:
+      return { step: 1, count: 0 };
     default:
       return state;
   }
 };
 
 export const DateCounter = () => {
-  const [count, setCount] = useState(0);
-  const [step, setStep] = useState(1);
+  const initialState: InitialState = {
+    count: 0,
+    step: 1,
+  };
 
-  const [count, dispatch] = useReducer(reducer, 0);
+  const [{ count, step }, dispatch] = useReducer(reducer, initialState);
 
   const date = new Date("june 21 2027");
-  date.setDate(date.getDate() + count);
 
-  const decrementHandler = () => dispatch({ type: ActionType.DECREMENT });
-  const incrementHandler = () => dispatch({ type: ActionType.INCREMENT });
+  const decrementHandler = () => dispatch({ type: Action.DECREMENT });
+  const incrementHandler = () => dispatch({ type: Action.INCREMENT });
 
   const defineCountHandler = (event: ChangeEvent<HTMLInputElement>) =>
     dispatch({
-      type: ActionType.SET_COUNT,
+      type: Action.SET_COUNT,
       payload: Number(event.target.value),
     });
 
   const defineStepHandler = (event: ChangeEvent<HTMLInputElement>) =>
-    setStep(Number(event.target.value));
+    dispatch({
+      type: Action.SET_STEP,
+      payload: Number(event.target.value),
+    });
 
   const reset = () => {
-    setCount(0);
-    setStep(1);
+    dispatch({ type: Action.RESET });
   };
 
   return (
