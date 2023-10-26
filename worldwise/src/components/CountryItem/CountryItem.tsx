@@ -1,10 +1,8 @@
+import { Country } from "@/types";
 import styles from "@/components/CountryItem/CountryItem.module.css";
 
 type CountryItemProps = {
-  country: {
-    emoji: string;
-    country: string;
-  };
+  country: Country;
 };
 
 export const CountryItem = ({ country }: CountryItemProps) => (

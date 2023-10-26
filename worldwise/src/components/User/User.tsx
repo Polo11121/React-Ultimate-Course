@@ -10,13 +10,13 @@ const FAKE_USER = {
 export const User = () => {
   const user = FAKE_USER;
 
-  function handleClick() {}
+  const clickHandler = () => {};
 
   return (
     <div className={styles.user}>
       <img src={user.avatar} alt={user.name} />
       <span>Welcome, {user.name}</span>
-      <button onClick={handleClick}>Logout</button>
+      <button onClick={clickHandler}>Logout</button>
     </div>
   );
 };

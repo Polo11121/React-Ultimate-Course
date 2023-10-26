@@ -1,7 +1,9 @@
+import { PageNav } from "@/components";
 import styles from "@/pages/Pricing/Pricing.module.css";
 
 export const Pricing = () => (
   <main className={styles.pricing}>
+    <PageNav />
     <section>
       <div>
         <h2>

@@ -1,12 +1,5 @@
 import styles from "@/components/City/City.module.css";
-
-const formatDate = (date: string) =>
-  new Intl.DateTimeFormat("en", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-    weekday: "long",
-  }).format(new Date(date));
+import { formatDate } from "@/lib";
 
 export const City = () => {
   const currentCity = {
