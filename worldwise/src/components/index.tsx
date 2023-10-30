@@ -4,6 +4,7 @@ export { City } from "@/components/City/City";
 export { CityItem } from "@/components/CityItem/CityItem";
 export { CityList } from "@/components/CityList/CityList";
 export { CountryItem } from "@/components/CountryItem/CountryItem";
+export { CountryList } from "@/components/CountryList/CountryList";
 export { Footer } from "@/components/Footer/Footer";
 export { Form } from "@/components/Form/Form";
 export { Map } from "@/components/Map/Map";

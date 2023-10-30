@@ -1,1 +1,1 @@
-export { useGetCities } from "@/hooks/useGetCities";
+export { useFetch } from "@/hooks/useFetch";

@@ -3,7 +3,7 @@ import { City } from "@/types";
 import styles from "@/components/CityList/CityList.module.css";
 
 type CityListProps = {
-  cities: City[];
+  cities: City[] | null;
   isLoading: boolean;
 };
 
@@ -12,7 +12,7 @@ export const CityList = ({ cities, isLoading }: CityListProps) => {
     return <Spinner />;
   }
 
-  if (!cities.length) {
+  if (!cities || !cities.length) {
     return (
       <Message message="Add your first city by clicking on a city on the map" />
     );
