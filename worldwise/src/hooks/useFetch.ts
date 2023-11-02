@@ -1,12 +1,18 @@
 import { useEffect, useState } from "react";
 import { env } from "@/lib";
 
-export const useFetch = <T>(endpoint: string) => {
+type UseFetchProps = {
+  endpoint: string;
+  enabled?: boolean;
+};
+
+export const useFetch = <T>({ endpoint, enabled = true }: UseFetchProps) => {
   const [data, setData] = useState<T | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const fetchFunction = async () => {
+      setIsLoading(true);
       try {
         const response = await fetch(`${env.VITE_API_KEY}/${endpoint}`);
 
@@ -23,8 +29,10 @@ export const useFetch = <T>(endpoint: string) => {
       }
     };
 
-    fetchFunction();
-  }, [endpoint]);
+    if (enabled) {
+      fetchFunction();
+    }
+  }, [endpoint, enabled]);
 
   return {
     data,

@@ -1,13 +1,11 @@
 import { CountryItem, Message, Spinner } from "@/components";
 import { City } from "@/types";
+import { useCitiesContext } from "@/contexts";
 import styles from "@/components/CountryList/CountryList.module.css";
 
-type CountryListProps = {
-  cities: City[] | null;
-  isLoading: boolean;
-};
+export const CountryList = () => {
+  const { cities, isLoading } = useCitiesContext();
 
-export const CountryList = ({ cities, isLoading }: CountryListProps) => {
   if (isLoading) {
     return <Spinner />;
   }

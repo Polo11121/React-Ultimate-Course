@@ -4,7 +4,7 @@ import styles from "@/components/Button/Button.module.css";
 type ButtonProps = {
   children: ReactNode;
   onClick: () => void;
-  styleType?: "primary" | "back";
+  styleType?: "primary" | "back" | "position";
 } & ButtonHTMLAttributes<HTMLButtonElement>;
 
 export const Button = ({

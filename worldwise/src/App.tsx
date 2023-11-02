@@ -1,12 +1,8 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Home, NotFound, Pricing, Product, AppLayout, Login } from "@/pages";
 import { City, CityList, CountryList, Form } from "@/components";
-import { useFetch } from "@/hooks";
-import { City as CityType } from "@/types";
 
 export const App = () => {
-  const { data: cities, isLoading } = useFetch<CityType[]>("cities");
-
   return (
     <BrowserRouter>
       <Routes>
@@ -15,16 +11,9 @@ export const App = () => {
         <Route path="product" element={<Product />} />
         <Route path="pricing" element={<Pricing />} />
         <Route path="app" element={<AppLayout />}>
-          <Route
-            path="countries"
-            element={<CountryList cities={cities} isLoading={isLoading} />}
-          />
+          <Route path="countries" element={<CountryList />} />
           <Route path="form" element={<Form />} />
-          <Route
-            index
-            path="cities"
-            element={<CityList cities={cities} isLoading={isLoading} />}
-          />
+          <Route index path="cities" element={<CityList />} />
           <Route index path="cities/:id" element={<City />} />
           <Route index element={<Navigate to="cities" replace />} />
         </Route>

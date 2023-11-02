@@ -1,24 +1,29 @@
+import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { formatDate } from "@/lib";
-import { useFetch } from "@/hooks";
 import { Spinner, Message, Button } from "@/components";
-import { City as CityType } from "@/types";
 import styles from "@/components/City/City.module.css";
+import { useCitiesContext } from "@/contexts";
 
 export const City = () => {
-  const { id } = useParams();
-  const { data: city, isLoading } = useFetch<CityType>(`cities/${id}`);
+  const { id } = useParams() as { id: string };
+  const { currentCity, isLoading, getCity } = useCitiesContext();
+
+  useEffect(() => {
+    getCity(id);
+  }, [id]);
+
   const navigate = useNavigate();
 
-  if (isLoading) {
+  if (isLoading || currentCity?.id !== Number(id)) {
     return <Spinner />;
   }
 
-  if (!city) {
+  if (!currentCity) {
     return <Message message="City not found" />;
   }
 
-  const { cityName, emoji, date, notes } = city;
+  const { cityName, emoji, date, notes } = currentCity;
 
   const goBackHandler = () => navigate(-1);
 
