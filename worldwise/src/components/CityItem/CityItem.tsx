@@ -1,3 +1,4 @@
+import { MouseEvent } from "react";
 import { Link } from "react-router-dom";
 import { City } from "@/types";
 import { formatDate } from "@/lib";
@@ -11,7 +12,14 @@ type CityProps = {
 export const CityItem = ({
   city: { cityName, emoji, date, id, position },
 }: CityProps) => {
-  const { currentCity } = useCitiesContext();
+  const { currentCity, removeCity } = useCitiesContext();
+
+  const deleteHandler = (event: MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    event.stopPropagation();
+
+    removeCity(id);
+  };
 
   return (
     <li>
@@ -24,7 +32,9 @@ export const CityItem = ({
         <span className={styles.emoji}>{emoji}</span>
         <span className={styles.name}>{cityName}</span>
         <time className={styles.date}>{formatDate(date)}</time>
-        <button className={styles.deleteBtn}>&times;</button>
+        <button onClick={deleteHandler} className={styles.deleteBtn}>
+          &times;
+        </button>
       </Link>
     </li>
   );

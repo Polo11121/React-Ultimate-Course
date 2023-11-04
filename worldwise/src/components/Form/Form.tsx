@@ -1,54 +1,84 @@
-// "https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=0&longitude=0"
-
-import { useState, ChangeEvent } from "react";
 import { useNavigate } from "react-router-dom";
-import { Button } from "@/components";
+import { Button, Message, Spinner } from "@/components";
+import { useForm } from "@/components/Form/hooks";
+import DatePicker from "react-datepicker";
 import styles from "@/components/Form/Form.module.css";
 
-// const convertToEmoji = (countryCode: string) => {
-//   const codePoints = countryCode
-//     .toUpperCase()
-//     .split("")
-//     .map((char) => 127397 + char.charCodeAt(0));
-//   return String.fromCodePoint(...codePoints);
-// };
-
 export const Form = () => {
-  const [cityName, setCityName] = useState("");
-  const [date, setDate] = useState("");
-  const [notes, setNotes] = useState("");
+  const {
+    cityName,
+    date,
+    notes,
+    emoji,
+    isLoading,
+    error,
+    selectDateHandler,
+    changeCityNameHandler,
+    changeNotesHandler,
+    submitHandler,
+    isAddCityLoading,
+  } = useForm();
   const navigate = useNavigate();
-
-  const selectDateHandler = (event: ChangeEvent<HTMLInputElement>) =>
-    setDate(event.target.value);
 
   const goBackHandler = () => navigate(-1);
 
+  if (isLoading) {
+    return (
+      <div className={styles.form}>
+        <Spinner />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className={styles.form}>
+        <Message message={error} />
+      </div>
+    );
+  }
+
   return (
-    <form className={styles.form}>
+    <form
+      className={`${styles.form}${
+        isAddCityLoading ? " " + styles.loading : ""
+      }`}
+      onSubmit={submitHandler}
+    >
       <div className={styles.row}>
         <label htmlFor="cityName">City name</label>
         <input
           id="cityName"
-          onChange={(e) => setCityName(e.target.value)}
+          onChange={changeCityNameHandler}
           value={cityName}
         />
-        {/* <span className={styles.flag}>{emoji}</span> */}
+        <span className={styles.flag}>{emoji}</span>
       </div>
       <div className={styles.row}>
         <label htmlFor="date">When did you go to {cityName}?</label>
-        <input id="date" onChange={selectDateHandler} value={date} />
+        <DatePicker
+          autoComplete="off"
+          onKeyDown={(event) => {
+            event.preventDefault();
+          }}
+          popperPlacement="bottom"
+          id="date"
+          dateFormat="dd/MM/yyyy"
+          onChange={selectDateHandler}
+          selected={date}
+        />
       </div>
       <div className={styles.row}>
         <label htmlFor="notes">Notes about your trip to {cityName}</label>
-        <textarea
-          id="notes"
-          onChange={(e) => setNotes(e.target.value)}
-          value={notes}
-        />
+        <textarea id="notes" onChange={changeNotesHandler} value={notes} />
       </div>
       <div className={styles.buttons}>
-        <Button styleType="primary" onClick={() => {}}>
+        <Button
+          styleType="primary"
+          type="submit"
+          disabled={isAddCityLoading}
+          isLoading={isAddCityLoading}
+        >
           Add
         </Button>
         <Button styleType="back" onClick={goBackHandler}>

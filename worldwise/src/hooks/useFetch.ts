@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { env } from "@/lib";
 
 type UseFetchProps = {
   endpoint: string;
@@ -14,7 +13,7 @@ export const useFetch = <T>({ endpoint, enabled = true }: UseFetchProps) => {
     const fetchFunction = async () => {
       setIsLoading(true);
       try {
-        const response = await fetch(`${env.VITE_API_KEY}/${endpoint}`);
+        const response = await fetch(endpoint);
 
         if (response.ok) {
           const responseData = await response.json();
@@ -23,7 +22,7 @@ export const useFetch = <T>({ endpoint, enabled = true }: UseFetchProps) => {
           throw new Error("Something went wrong");
         }
       } catch (error) {
-        console.log(error);
+        console.error(error);
       } finally {
         setIsLoading(false);
       }
@@ -37,5 +36,6 @@ export const useFetch = <T>({ endpoint, enabled = true }: UseFetchProps) => {
   return {
     data,
     isLoading,
+    setData,
   };
 };

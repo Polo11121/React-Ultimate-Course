@@ -7,11 +7,11 @@ import {
   useMap,
   useMapEvents,
 } from "react-leaflet";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { LatLngExpression } from "leaflet";
 import { useCitiesContext } from "@/contexts";
 import { Button, Spinner } from "@/components";
-import { useGeolocation } from "@/hooks";
+import { useGeolocation, useUrlPosition } from "@/hooks";
 import styles from "@/components/Map/Map.module.css";
 
 const CenterHandler = ({ position }: { position: LatLngExpression }) => {
@@ -40,14 +40,20 @@ const defaultPosition = { lat: 53.770226, lng: 20.490189 } as LatLngExpression;
 export const Map = () => {
   const [position, setPosition] = useState<LatLngExpression>(defaultPosition);
   const { cities, currentCity, isLoading } = useCitiesContext();
-  const [searchParams] = useSearchParams();
+  const { lat, lng } = useUrlPosition();
   const {
     getPosition: getMyPosition,
     isLoading: isMyPositionLoading,
     position: myPosition,
   } = useGeolocation();
-  const params = new URLSearchParams(searchParams);
-  const { lat, lng } = Object.fromEntries(params.entries());
+  const navigate = useNavigate();
+
+  const isMyCityAdded =
+    myPosition &&
+    cities?.find(
+      ({ position }) =>
+        position.lat === myPosition.lat && position.lng === myPosition.lng
+    );
 
   useEffect(() => {
     if (lat && lng) {
@@ -67,6 +73,9 @@ export const Map = () => {
       setPosition(myPosition);
     }
   }, [myPosition]);
+
+  const addMyCityHandler = () =>
+    navigate(`form?lat=${myPosition?.lat}&lng=${myPosition?.lng}`);
 
   return (
     <div className={styles.mapContainer}>
@@ -94,6 +103,9 @@ export const Map = () => {
                 <Popup>
                   <span>📍</span>
                   <span>Your current position</span>
+                  {!isMyCityAdded && (
+                    <Button onClick={addMyCityHandler}>Add</Button>
+                  )}
                 </Popup>
               </Marker>
             )}

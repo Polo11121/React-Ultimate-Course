@@ -9,6 +9,13 @@
   cursor: pointer;
 }
 
+.btnContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
 .primary {
   font-weight: 700;
   background-color: var(--color-brand--2);

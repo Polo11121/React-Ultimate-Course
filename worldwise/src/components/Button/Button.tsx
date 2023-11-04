@@ -1,9 +1,11 @@
 import { ReactNode, ButtonHTMLAttributes } from "react";
+import { Spinner } from "@/components";
 import styles from "@/components/Button/Button.module.css";
 
 type ButtonProps = {
   children: ReactNode;
-  onClick: () => void;
+  onClick?: () => void;
+  isLoading?: boolean;
   styleType?: "primary" | "back" | "position";
 } & ButtonHTMLAttributes<HTMLButtonElement>;
 
@@ -12,14 +14,18 @@ export const Button = ({
   onClick,
   styleType = "primary",
   type = "button",
+  isLoading = false,
   ...props
 }: ButtonProps) => (
-  <button
-    {...props}
-    className={`${styles.btn} ${styles[styleType]}`}
-    onClick={onClick}
-    type={type}
-  >
-    {children}
-  </button>
+  <div className={styles.btnContainer}>
+    <button
+      {...props}
+      className={`${styles.btn} ${styles[styleType]}`}
+      onClick={onClick}
+      type={type}
+    >
+      {children}
+    </button>
+    {isLoading && <Spinner small />}
+  </div>
 );

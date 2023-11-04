@@ -3,10 +3,11 @@ import { City } from "@/types";
 
 type CitiesContextValue = {
   cities: City[] | null;
-
   isLoading: boolean;
   currentCity: City | null;
   getCity: (id: string) => void;
+  addCity: (city: City) => void;
+  removeCity: (id: number) => void;
 };
 
 export const CitiesContext = createContext<CitiesContextValue>({
@@ -14,6 +15,8 @@ export const CitiesContext = createContext<CitiesContextValue>({
   isLoading: true,
   currentCity: null,
   getCity: () => {},
+  addCity: () => {},
+  removeCity: () => {},
 });
 
 export const useCitiesContext = () => {
