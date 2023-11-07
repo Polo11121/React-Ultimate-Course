@@ -11,6 +11,7 @@ export { Map } from "@/components/Map/Map";
 export { Logo } from "@/components/Logo/Logo";
 export { Message } from "@/components/Message/Message";
 export { PageNav } from "@/components/PageNav/PageNav";
+export { ProtectedRoute } from "@/components/ProtectedRoute/ProtectedRoute";
 export { Sidebar } from "@/components/Sidebar/Sidebar";
 export { Spinner } from "@/components/Spinner/Spinner";
 export { SpinnerFull } from "@/components/SpinnerFull/SpinnerFull";

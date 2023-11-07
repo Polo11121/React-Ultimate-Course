@@ -1,10 +1,21 @@
-import { useState } from "react";
-import { PageNav } from "@/components";
+import { useState, MouseEvent } from "react";
+import { Button, PageNav } from "@/components";
+import { useAuthContext } from "@/contexts";
+import { useNavigate } from "react-router-dom";
 import styles from "@/pages/Login/Login.module.css";
 
 export const Login = () => {
   const [email, setEmail] = useState("jack@example.com");
   const [password, setPassword] = useState("qwerty");
+  const { onLogin } = useAuthContext();
+  const navigate = useNavigate();
+
+  const loginHandler = (event: MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+
+    onLogin(email, password);
+    navigate("/app/cities");
+  };
 
   return (
     <main className={styles.login}>
@@ -29,7 +40,7 @@ export const Login = () => {
           />
         </div>
         <div>
-          <button>Login</button>
+          <Button onClick={loginHandler}>Login</Button>
         </div>
       </form>
     </main>

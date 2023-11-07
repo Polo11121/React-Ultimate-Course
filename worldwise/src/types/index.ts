@@ -1,3 +1,10 @@
+export type User = {
+  email: string;
+  password: string;
+  name: string;
+  avatar: string;
+};
+
 export type Country = {
   emoji: string;
   country: string;

@@ -1,10 +1,10 @@
-import { ReactNode, ButtonHTMLAttributes } from "react";
+import { ReactNode, ButtonHTMLAttributes, MouseEvent } from "react";
 import { Spinner } from "@/components";
 import styles from "@/components/Button/Button.module.css";
 
 type ButtonProps = {
   children: ReactNode;
-  onClick?: () => void;
+  onClick?: (event: MouseEvent<HTMLButtonElement>) => void;
   isLoading?: boolean;
   styleType?: "primary" | "back" | "position";
 } & ButtonHTMLAttributes<HTMLButtonElement>;

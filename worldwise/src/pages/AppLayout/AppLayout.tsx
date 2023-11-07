@@ -1,9 +1,20 @@
-import { Map, Sidebar } from "@/components";
+import { Map, Sidebar, User } from "@/components";
+import { useAuthContext } from "@/contexts";
+import { Navigate } from "react-router-dom";
 import styles from "@/pages/AppLayout/AppLayout.module.css";
 
-export const AppLayout = () => (
-  <div className={styles.app}>
-    <Sidebar />
-    <Map />
-  </div>
-);
+export const AppLayout = () => {
+  const { isAuthenticated } = useAuthContext();
+
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />;
+  }
+
+  return (
+    <div className={styles.app}>
+      <Sidebar />
+      <Map />
+      <User />
+    </div>
+  );
+};
