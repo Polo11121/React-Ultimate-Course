@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { PageNav } from "@/components";
 import styles from "@/pages/Home/Home.module.css";
 
-export const Home = () => (
+const Home = () => (
   <main className={styles.home}>
     <PageNav />
     <section>
@@ -22,3 +22,5 @@ export const Home = () => (
     </section>
   </main>
 );
+
+export default Home;

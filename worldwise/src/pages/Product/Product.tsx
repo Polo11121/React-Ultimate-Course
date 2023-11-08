@@ -1,7 +1,7 @@
 import { PageNav } from "@/components";
 import styles from "@/pages/Product/Product.module.css";
 
-export const Product = () => (
+const Product = () => (
   <main className={styles.product}>
     <PageNav />
     <section>
@@ -26,3 +26,5 @@ export const Product = () => (
     </section>
   </main>
 );
+
+export default Product;

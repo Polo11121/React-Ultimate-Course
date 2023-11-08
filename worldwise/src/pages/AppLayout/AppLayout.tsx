@@ -3,7 +3,7 @@ import { useAuthContext } from "@/contexts";
 import { Navigate } from "react-router-dom";
 import styles from "@/pages/AppLayout/AppLayout.module.css";
 
-export const AppLayout = () => {
+const AppLayout = () => {
   const { isAuthenticated } = useAuthContext();
 
   if (!isAuthenticated) {
@@ -18,3 +18,5 @@ export const AppLayout = () => {
     </div>
   );
 };
+
+export default AppLayout;

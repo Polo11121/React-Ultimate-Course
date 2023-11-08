@@ -4,7 +4,7 @@ import { useAuthContext } from "@/contexts";
 import { useNavigate } from "react-router-dom";
 import styles from "@/pages/Login/Login.module.css";
 
-export const Login = () => {
+const Login = () => {
   const [email, setEmail] = useState("jack@example.com");
   const [password, setPassword] = useState("qwerty");
   const { onLogin } = useAuthContext();
@@ -46,3 +46,5 @@ export const Login = () => {
     </main>
   );
 };
+
+export default Login;

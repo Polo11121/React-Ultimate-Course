@@ -1,7 +1,7 @@
 import { PageNav } from "@/components";
 import styles from "@/pages/Pricing/Pricing.module.css";
 
-export const Pricing = () => (
+const Pricing = () => (
   <main className={styles.pricing}>
     <PageNav />
     <section>
@@ -21,3 +21,5 @@ export const Pricing = () => (
     </section>
   </main>
 );
+
+export default Pricing;
