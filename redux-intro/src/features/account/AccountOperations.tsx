@@ -19,7 +19,7 @@ export const AccountOperations = () => {
       return;
     }
 
-    dispatch(deposit(depositAmount));
+    dispatch(deposit(depositAmount, currency));
     setDepositAmount(0);
   };
 

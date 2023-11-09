@@ -1,17 +1,15 @@
-import { createStore } from "redux";
-
-type CustomerState = {
+type State = {
   fullName: string;
   nationalID: string;
   createdAt: string;
 };
 
-enum CustomerActionType {
+enum ActionType {
   CREATE_CUSTOMER = "createCustomer",
   UPDATE_NAME = "updateName",
 }
 
-const initialStateCustomer = {
+const initialState: State = {
   fullName: "",
   nationalID: "",
   createdAt: "",
@@ -19,36 +17,31 @@ const initialStateCustomer = {
 
 type Action =
   | {
-      type: CustomerActionType.CREATE_CUSTOMER;
-      payload: CustomerState;
+      type: ActionType.CREATE_CUSTOMER;
+      payload: State;
     }
   | {
-      type: CustomerActionType.UPDATE_NAME;
+      type: ActionType.UPDATE_NAME;
       payload: string;
     };
 
-export const customerReducer = (
-  state = initialStateCustomer,
-  action: Action
-) => {
+export const customerReducer = (state = initialState, action: Action) => {
   switch (action.type) {
-    case CustomerActionType.CREATE_CUSTOMER:
+    case ActionType.CREATE_CUSTOMER:
       return { ...state, ...action.payload };
-    case CustomerActionType.UPDATE_NAME:
+    case ActionType.UPDATE_NAME:
       return { ...state, fullName: action.payload };
     default:
       return state;
   }
 };
 
-export const customerStore = createStore(customerReducer);
-
 export const createCustomer = (fullName: string, nationalID: string) => ({
-  type: CustomerActionType.CREATE_CUSTOMER as const,
+  type: ActionType.CREATE_CUSTOMER as const,
   payload: { fullName, nationalID, createdAt: new Date().toISOString() },
 });
 
 export const updateName = (fullName: string) => ({
-  type: CustomerActionType.UPDATE_NAME as const,
+  type: ActionType.UPDATE_NAME as const,
   payload: fullName,
 });
